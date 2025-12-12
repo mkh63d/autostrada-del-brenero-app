@@ -1,0 +1,49 @@
+{
+  "app": {
+    "title": "Attrazioni di Trento",
+    "description": "Scopri le attrazioni locali a Trento"
+  },
+  "nav": {
+    "home": "Home",
+    "add": "Aggiungi attrazione",
+    "about": "Info"
+  },
+  "attractions": {
+    "title": "Attrazioni",
+    "add": "Aggiungi attrazione",
+    "edit": "Modifica attrazione",
+    "delete": "Elimina",
+    "confirm_delete": "Sei sicuro di voler eliminare questa attrazione?",
+    "no_attractions": "Nessuna attrazione ancora. Aggiungi la prima!",
+    "view_details": "Vedi dettagli",
+    "back": "Torna alla lista"
+  },
+  "form": {
+    "name": "Nome",
+    "name_placeholder": "Inserisci il nome dell'attrazione",
+    "description": "Descrizione",
+    "description_placeholder": "Inserisci la descrizione",
+    "type": "Tipo",
+    "museum": "Museo",
+    "experience": "Esperienza",
+    "address": "Indirizzo",
+    "address_placeholder": "Inserisci l'indirizzo",
+    "phone": "Telefono",
+    "phone_placeholder": "Inserisci il numero di telefono",
+    "website": "Sito web",
+    "website_placeholder": "Inserisci l'URL del sito",
+    "opening_hours": "Orari di apertura",
+    "opening_hours_placeholder": "es. Lun-Ven: 9:00-18:00",
+    "price": "Prezzo",
+    "price_placeholder": "es. 10€",
+    "save": "Salva",
+    "cancel": "Annulla",
+    "required": "Questo campo è obbligatorio"
+  },
+  "messages": {
+    "added": "Attrazione aggiunta con successo",
+    "updated": "Attrazione aggiornata con successo",
+    "deleted": "Attrazione eliminata con successo",
+    "error": "Si è verificato un errore"
+  }
+}

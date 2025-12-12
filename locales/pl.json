@@ -1,0 +1,49 @@
+{
+  "app": {
+    "title": "Atrakcje w Trydencie",
+    "description": "Odkryj lokalne atrakcje w Trydencie"
+  },
+  "nav": {
+    "home": "Strona główna",
+    "add": "Dodaj atrakcję",
+    "about": "O aplikacji"
+  },
+  "attractions": {
+    "title": "Atrakcje",
+    "add": "Dodaj atrakcję",
+    "edit": "Edytuj atrakcję",
+    "delete": "Usuń",
+    "confirm_delete": "Czy na pewno chcesz usunąć tę atrakcję?",
+    "no_attractions": "Brak atrakcji. Dodaj pierwszą!",
+    "view_details": "Zobacz szczegóły",
+    "back": "Powrót do listy"
+  },
+  "form": {
+    "name": "Nazwa",
+    "name_placeholder": "Wprowadź nazwę atrakcji",
+    "description": "Opis",
+    "description_placeholder": "Wprowadź opis",
+    "type": "Typ",
+    "museum": "Muzeum",
+    "experience": "Doświadczenie",
+    "address": "Adres",
+    "address_placeholder": "Wprowadź adres",
+    "phone": "Telefon",
+    "phone_placeholder": "Wprowadź numer telefonu",
+    "website": "Strona internetowa",
+    "website_placeholder": "Wprowadź URL strony",
+    "opening_hours": "Godziny otwarcia",
+    "opening_hours_placeholder": "np. Pon-Pt: 9:00-18:00",
+    "price": "Cena",
+    "price_placeholder": "np. 10€",
+    "save": "Zapisz",
+    "cancel": "Anuluj",
+    "required": "To pole jest wymagane"
+  },
+  "messages": {
+    "added": "Atrakcja dodana pomyślnie",
+    "updated": "Atrakcja zaktualizowana pomyślnie",
+    "deleted": "Atrakcja usunięta pomyślnie",
+    "error": "Wystąpił błąd"
+  }
+}
