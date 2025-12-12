@@ -1,0 +1,76 @@
+{
+  "app": {
+    "title": "Atrakcje w Trydencie",
+    "description": "Odkryj lokalne atrakcje w Trydencie"
+  },
+  "nav": {
+    "home": "Strona główna",
+    "add": "Dodaj atrakcję",
+    "about": "O aplikacji"
+  },
+  "attractions": {
+    "title": "Atrakcje",
+    "add": "Dodaj atrakcję",
+    "edit": "Edytuj atrakcję",
+    "delete": "Usuń",
+    "confirm_delete": "Czy na pewno chcesz usunąć tę atrakcję?",
+    "no_attractions": "Brak atrakcji. Dodaj pierwszą!",
+    "view_details": "Zobacz szczegóły",
+    "back": "Powrót do listy"
+  },
+  "form": {
+    "name": "Nazwa",
+    "name_placeholder": "Wprowadź nazwę atrakcji",
+    "description": "Opis",
+    "description_placeholder": "Wprowadź opis",
+    "type": "Typ",
+    "museum": "Muzeum",
+    "experience": "Doświadczenie",
+    "address": "Adres",
+    "address_placeholder": "Wprowadź adres",
+    "phone": "Telefon",
+    "phone_placeholder": "Wprowadź numer telefonu",
+    "website": "Strona internetowa",
+    "website_placeholder": "Wprowadź URL strony",
+    "opening_hours": "Godziny otwarcia",
+    "opening_hours_placeholder": "np. Pon-Pt: 9:00-18:00",
+    "price": "Cena",
+    "price_placeholder": "np. 10€",
+    "locationInfo": "Lokalizacja i dojazd z autostrady",
+    "latitude": "Szerokość geograficzna",
+    "longitude": "Długość geograficzna",
+    "autostradeExit": "Zjazd z autostrady (A22 Brennero)",
+    "autostradeExitPlaceholder": "np. Trento Centro (A22)",
+    "distanceFromExit": "Odległość od zjazdu (km)",
+    "distanceFromExitPlaceholder": "np. 2.5",
+    "save": "Zapisz",
+    "cancel": "Anuluj",
+    "required": "To pole jest wymagane"
+  },
+  "location": {
+    "exit": "Zjazd",
+    "fromExit": "od zjazdu",
+    "howToGet": "Jak dojechać",
+    "estimatedTime": "Szacowany czas",
+    "highwayExit": "Zjazd z autostrady",
+    "additionalDistance": "Dodatkowa odległość od zjazdu",
+    "approx": "ok.",
+    "showRoute": "Pokaż trasę na mapie",
+    "hideRoute": "Ukryj trasę",
+    "yourRoute": "Twoja trasa",
+    "openInGoogleMaps": "Otwórz w Google Maps",
+    "openInWaze": "Otwórz w Waze",
+    "directions": "Instrukcje krok po kroku",
+    "step1": "Jedź autostradą A22 Brennero w kierunku celu",
+    "step2": "Zjedź zjazdem: {exit}",
+    "step3": "Podążaj za lokalnymi znakami do: {address}",
+    "enableLocation": "Włącz lokalizację, aby zobaczyć trasę na mapie",
+    "allowLocation": "Zezwól na dostęp do lokalizacji"
+  },
+  "messages": {
+    "added": "Atrakcja dodana pomyślnie",
+    "updated": "Atrakcja zaktualizowana pomyślnie",
+    "deleted": "Atrakcja usunięta pomyślnie",
+    "error": "Wystąpił błąd"
+  }
+}
