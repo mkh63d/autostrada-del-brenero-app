@@ -20,6 +20,12 @@
               >
                 {{ $t('nav.add') }}
               </NuxtLink>
+              <NuxtLink 
+                to="/games" 
+                class="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium"
+              >
+                {{ $t('nav.games') }}
+              </NuxtLink>
             </div>
           </div>
           
@@ -63,6 +69,16 @@
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
           </svg>
           <span class="text-xs mt-1">{{ $t('nav.add') }}</span>
+        </NuxtLink>
+
+        <NuxtLink 
+          to="/games" 
+          class="flex flex-col items-center justify-center flex-1 text-gray-600 hover:text-blue-600"
+        >
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          <span class="text-xs mt-1">{{ $t('nav.games') }}</span>
         </NuxtLink>
       </div>
     </nav>
