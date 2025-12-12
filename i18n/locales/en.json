@@ -1,11 +1,12 @@
 {
   "app": {
-    "title": "Trento Attractions",
-    "description": "Discover local attractions in Trento"
+    "title": "Trip of A22",
+    "description": "Discover attractions along A22 Brennero highway"
   },
   "nav": {
     "home": "Home",
     "add": "Add Attraction",
+    "games": "Games",
     "about": "About"
   },
   "attractions": {
@@ -72,5 +73,69 @@
     "updated": "Attraction updated successfully",
     "deleted": "Attraction deleted successfully",
     "error": "An error occurred"
+  },
+  "games": {
+    "title": "Games",
+    "description": "Have fun while traveling on A22!",
+    "quickGames": "Quick Games",
+    "vocalGames": "Vocal & Narrative Games",
+    "vocalGamesDesc": "Interactive story-driven games perfect for group play. Read aloud and solve together!",
+    "fiveSeconds": {
+      "title": "5 Seconds",
+      "description": "Answer the question within 5 seconds!",
+      "start": "Start Game",
+      "nextQuestion": "Next Question",
+      "timeUp": "Time's up!",
+      "correct": "Correct!",
+      "score": "Score",
+      "gameOver": "Game Over",
+      "playAgain": "Play Again",
+      "questions": [
+        "Name 3 Italian cities",
+        "Name 3 types of pasta",
+        "Name 3 Italian car brands",
+        "Name 3 mountains in the Alps",
+        "Name 3 Italian desserts",
+        "Name 3 things you see on a highway",
+        "Name 3 types of pizza",
+        "Name 3 Italian regions",
+        "Name 3 things in your car",
+        "Name 3 road signs",
+        "Name 3 European countries",
+        "Name 3 things to do at a rest stop"
+      ]
+    },
+    "storyCubes": {
+      "title": "Story Cubes",
+      "description": "Roll the dice and create a story!",
+      "instruction": "Roll the dice and use the symbols to create a fun story together!",
+      "roll": "Roll Dice"
+    },
+    "millionaires": {
+      "title": "Millionaires",
+      "description": "Answer trivia questions and win virtual millions!",
+      "start": "Start Game",
+      "question": "Question",
+      "next": "Next Question",
+      "finish": "Claim Prize",
+      "winner": "Congratulations! You're a Millionaire!",
+      "lost": "Wrong Answer!",
+      "correctWas": "The correct answer was",
+      "playAgain": "Play Again",
+      "questions": [
+        { "question": "What is the capital of Italy?", "answers": ["Milan", "Rome", "Naples", "Florence"], "correctIndex": 1 },
+        { "question": "Which highway is the A22?", "answers": ["Autostrada del Sole", "Autostrada del Brennero", "Autostrada Adriatica", "Autostrada dei Fiori"], "correctIndex": 1 },
+        { "question": "What mountain range does A22 cross?", "answers": ["Apennines", "Pyrenees", "Alps", "Carpathians"], "correctIndex": 2 },
+        { "question": "What is the official language of South Tyrol?", "answers": ["Italian only", "German only", "Italian and German", "Italian and French"], "correctIndex": 2 },
+        { "question": "Which city is at the northern end of A22?", "answers": ["Innsbruck", "Brenner Pass", "Bolzano", "Munich"], "correctIndex": 1 },
+        { "question": "What is Trento famous for?", "answers": ["Fashion", "Council of Trent", "Gondolas", "Leaning Tower"], "correctIndex": 1 },
+        { "question": "Which wine region is along A22?", "answers": ["Chianti", "Prosecco", "Alto Adige", "Barolo"], "correctIndex": 2 },
+        { "question": "What is Brenner Pass elevation?", "answers": ["500m", "1,000m", "1,370m", "2,000m"], "correctIndex": 2 },
+        { "question": "Which lake is near A22?", "answers": ["Lake Como", "Lake Garda", "Lake Maggiore", "Lake Orta"], "correctIndex": 1 },
+        { "question": "What does 'Autostrada' mean?", "answers": ["Fast road", "Highway", "Motor road", "Express way"], "correctIndex": 1 },
+        { "question": "Which country borders Italy at Brenner?", "answers": ["Switzerland", "France", "Austria", "Slovenia"], "correctIndex": 2 },
+        { "question": "What is the speed limit on Italian highways?", "answers": ["100 km/h", "120 km/h", "130 km/h", "150 km/h"], "correctIndex": 2 }
+      ]
+    }
   }
 }
