@@ -5,8 +5,10 @@ export default {
     "./layouts/**/*.vue",
     "./pages/**/*.vue",
     "./plugins/**/*.{js,ts}",
+    "./games/**/*.{js,vue,ts}",
     "./app.vue",
   ],
+  darkMode: 'class',
   theme: {
     extend: {},
   },
