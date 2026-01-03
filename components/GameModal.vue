@@ -4,7 +4,7 @@
     @click.self="$emit('close')"
   >
     <div class="min-h-full flex items-center justify-center p-4">
-      <div class="bg-white rounded-2xl shadow-2xl max-w-lg w-full my-8" @click.stop>
+      <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl max-w-lg w-full my-8" @click.stop>
         <!-- Modal Header -->
         <div 
           class="p-4 flex justify-between items-center rounded-t-2xl"

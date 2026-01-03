@@ -1,6 +1,17 @@
 export function useDarkMode() {
   const isDark = useState('darkMode', () => false);
 
+  // Update the HTML class
+  function updateClass() {
+    if (typeof document === 'undefined') return;
+    
+    if (isDark.value) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  }
+
   // Initialize from localStorage or system preference
   onMounted(() => {
     const stored = localStorage.getItem('darkMode');
@@ -12,15 +23,6 @@ export function useDarkMode() {
     }
     updateClass();
   });
-
-  // Update the HTML class
-  function updateClass() {
-    if (isDark.value) {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
-  }
 
   // Toggle dark mode
   function toggle() {
@@ -37,7 +39,9 @@ export function useDarkMode() {
   }
 
   // Watch for changes
-  watch(isDark, updateClass);
+  watch(isDark, () => {
+    updateClass();
+  });
 
   return {
     isDark,

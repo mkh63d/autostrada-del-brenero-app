@@ -17,7 +17,8 @@
     "confirm_delete": "Czy na pewno chcesz usunąć tę atrakcję?",
     "no_attractions": "Brak atrakcji. Dodaj pierwszą!",
     "view_details": "Zobacz szczegóły",
-    "back": "Powrót do listy"
+    "back": "Powrót do listy",
+    "notFound": "Nie znaleziono atrakcji"
   },
   "form": {
     "name": "Nazwa",

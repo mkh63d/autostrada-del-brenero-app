@@ -89,18 +89,18 @@ export function useMillionairesGame() {
     }
   }
 
-  // Get answer button styling class
+  // Get answer button styling class (with dark mode support)
   function getAnswerClass(index: number) {
     if (selectedAnswer.value === null) {
-      return 'bg-white border-gray-300 hover:bg-amber-50 hover:border-amber-400';
+      return 'bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 hover:bg-amber-50 dark:hover:bg-amber-900/30 hover:border-amber-400 dark:hover:border-amber-500 text-gray-800 dark:text-gray-200';
     }
     if (index === currentQuestion.value?.correctIndex) {
-      return 'bg-green-100 border-green-500 text-green-800';
+      return 'bg-green-100 dark:bg-green-900/50 border-green-500 text-green-800 dark:text-green-300';
     }
     if (index === selectedAnswer.value) {
-      return 'bg-red-100 border-red-500 text-red-800';
+      return 'bg-red-100 dark:bg-red-900/50 border-red-500 text-red-800 dark:text-red-300';
     }
-    return 'bg-gray-100 border-gray-300 opacity-50';
+    return 'bg-gray-100 dark:bg-gray-800 border-gray-300 dark:border-gray-600 opacity-50 text-gray-600 dark:text-gray-400';
   }
 
   // Reset the game

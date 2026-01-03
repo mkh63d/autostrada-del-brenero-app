@@ -1,7 +1,7 @@
 <template>
   <div
     @click="$emit('select', game)"
-    class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-all cursor-pointer transform hover:scale-105"
+    class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-all cursor-pointer transform hover:scale-105"
   >
     <div 
       class="p-6 text-white bg-gradient-to-br" 
@@ -12,8 +12,8 @@
       <span class="text-5xl">{{ game.icon }}</span>
     </div>
     <div class="p-4">
-      <h2 class="text-xl font-bold text-gray-900 mb-2">{{ game.title }}</h2>
-      <p class="text-gray-600 text-sm">{{ game.description }}</p>
+      <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-2">{{ game.title }}</h2>
+      <p class="text-gray-600 dark:text-gray-400 text-sm">{{ game.description }}</p>
     </div>
   </div>
 </template>

@@ -17,7 +17,8 @@
     "confirm_delete": "Sei sicuro di voler eliminare questa attrazione?",
     "no_attractions": "Nessuna attrazione ancora. Aggiungi la prima!",
     "view_details": "Vedi dettagli",
-    "back": "Torna alla lista"
+    "back": "Torna alla lista",
+    "notFound": "Attrazione non trovata"
   },
   "form": {
     "name": "Nome",

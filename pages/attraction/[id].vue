@@ -2,19 +2,19 @@
   <div class="pb-20 md:pb-0">
     <div v-if="loading" class="text-center py-12">
       <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
-      <p class="mt-4 text-gray-600">Loading...</p>
+      <p class="mt-4 text-gray-600 dark:text-gray-400">Loading...</p>
     </div>
 
     <div v-else-if="!attraction" class="text-center py-12">
-      <p class="text-xl text-gray-600">Attraction not found</p>
-      <NuxtLink to="/" class="mt-4 inline-block text-blue-600 hover:text-blue-700">
+      <p class="text-xl text-gray-600 dark:text-gray-400">{{ $t('attractions.notFound') }}</p>
+      <NuxtLink to="/" class="mt-4 inline-block text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300">
         {{ $t('attractions.back') }}
       </NuxtLink>
     </div>
 
     <div v-else class="max-w-4xl mx-auto">
       <div class="mb-6">
-        <NuxtLink to="/" class="text-blue-600 hover:text-blue-700 flex items-center space-x-2">
+        <NuxtLink to="/" class="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 flex items-center space-x-2">
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
           </svg>
@@ -22,22 +22,22 @@
         </NuxtLink>
       </div>
 
-      <div v-if="successMessage" class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
+      <div v-if="successMessage" class="bg-green-100 dark:bg-green-900/30 border border-green-400 dark:border-green-700 text-green-700 dark:text-green-400 px-4 py-3 rounded mb-4">
         {{ successMessage }}
       </div>
 
-      <div v-if="errorMessage" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+      <div v-if="errorMessage" class="bg-red-100 dark:bg-red-900/30 border border-red-400 dark:border-red-700 text-red-700 dark:text-red-400 px-4 py-3 rounded mb-4">
         {{ errorMessage }}
       </div>
 
-      <div v-if="!isEditing" class="bg-white rounded-lg shadow-md overflow-hidden">
+      <div v-if="!isEditing" class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden">
         <div class="p-8">
           <div class="flex justify-between items-start mb-6">
             <div>
-              <h1 class="text-3xl font-bold text-gray-900 mb-2">{{ attraction.name }}</h1>
+              <h1 class="text-3xl font-bold text-gray-900 dark:text-white mb-2">{{ attraction.name }}</h1>
               <span 
                 class="px-3 py-1 rounded-full text-sm font-medium"
-                :class="attraction.type === 'museum' ? 'bg-purple-100 text-purple-800' : 'bg-green-100 text-green-800'"
+                :class="attraction.type === 'museum' ? 'bg-purple-100 dark:bg-purple-900/50 text-purple-800 dark:text-purple-300' : 'bg-green-100 dark:bg-green-900/50 text-green-800 dark:text-green-300'"
               >
                 {{ $t(`form.${attraction.type}`) }}
               </span>
@@ -60,24 +60,24 @@
 
           <div class="space-y-6">
             <!-- Distance and Navigation Info -->
-            <div v-if="distanceInfo" class="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg p-6 border border-blue-200">
-              <h3 class="text-lg font-semibold text-gray-900 mb-3">{{ $t('location.howToGet') }}</h3>
+            <div v-if="distanceInfo" class="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/30 dark:to-indigo-900/30 rounded-lg p-6 border border-blue-200 dark:border-blue-800">
+              <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-3">{{ $t('location.howToGet') }}</h3>
               <div class="space-y-3">
-                <div class="flex items-center text-gray-700">
+                <div class="flex items-center text-gray-700 dark:text-gray-300">
                   <span class="text-2xl mr-3">🚗</span>
                   <div>
                     <p class="font-semibold text-lg">{{ formatDistance(distanceInfo.distance) }}</p>
-                    <p class="text-sm text-gray-600">{{ $t('location.estimatedTime') }}: {{ formatDuration(distanceInfo.duration) }}</p>
+                    <p class="text-sm text-gray-600 dark:text-gray-400">{{ $t('location.estimatedTime') }}: {{ formatDuration(distanceInfo.duration) }}</p>
                   </div>
                 </div>
                 
-                <div v-if="attraction.autostradeExit" class="pt-3 border-t border-blue-200">
+                <div v-if="attraction.autostradeExit" class="pt-3 border-t border-blue-200 dark:border-blue-700">
                   <div class="flex items-start">
                     <span class="text-xl mr-3">🛣️</span>
                     <div class="flex-1">
-                      <p class="font-semibold text-gray-900 mb-1">{{ $t('location.highwayExit') }}:</p>
-                      <p class="text-gray-700">{{ attraction.autostradeExit }}</p>
-                      <p v-if="attraction.distanceFromExit" class="text-sm text-gray-600 mt-1">
+                      <p class="font-semibold text-gray-900 dark:text-white mb-1">{{ $t('location.highwayExit') }}:</p>
+                      <p class="text-gray-700 dark:text-gray-300">{{ attraction.autostradeExit }}</p>
+                      <p v-if="attraction.distanceFromExit" class="text-sm text-gray-600 dark:text-gray-400 mt-1">
                         {{ $t('location.additionalDistance') }}: {{ attraction.distanceFromExit }} km {{ $t('location.fromExit') }}
                         ({{ $t('location.approx') }} {{ Math.round(attraction.distanceFromExit / 50 * 60) }} min)
                       </p>
@@ -111,13 +111,13 @@
             </div>
             
             <div>
-              <h2 class="text-lg font-semibold text-gray-900 mb-2">{{ $t('form.description') }}</h2>
-              <p class="text-gray-600">{{ attraction.description }}</p>
+              <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-2">{{ $t('form.description') }}</h2>
+              <p class="text-gray-600 dark:text-gray-400">{{ attraction.description }}</p>
             </div>
 
             <div v-if="attraction.address">
-              <h2 class="text-lg font-semibold text-gray-900 mb-2">{{ $t('form.address') }}</h2>
-              <p class="text-gray-600 flex items-start">
+              <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-2">{{ $t('form.address') }}</h2>
+              <p class="text-gray-600 dark:text-gray-400 flex items-start">
                 <svg class="w-5 h-5 mr-2 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -127,28 +127,28 @@
             </div>
 
             <div v-if="attraction.phone">
-              <h2 class="text-lg font-semibold text-gray-900 mb-2">{{ $t('form.phone') }}</h2>
-              <p class="text-gray-600 flex items-center">
+              <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-2">{{ $t('form.phone') }}</h2>
+              <p class="text-gray-600 dark:text-gray-400 flex items-center">
                 <svg class="w-5 h-5 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                 </svg>
-                <a :href="`tel:${attraction.phone}`" class="text-blue-600 hover:text-blue-700">{{ attraction.phone }}</a>
+                <a :href="`tel:${attraction.phone}`" class="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300">{{ attraction.phone }}</a>
               </p>
             </div>
 
             <div v-if="attraction.website">
-              <h2 class="text-lg font-semibold text-gray-900 mb-2">{{ $t('form.website') }}</h2>
-              <p class="text-gray-600 flex items-center">
+              <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-2">{{ $t('form.website') }}</h2>
+              <p class="text-gray-600 dark:text-gray-400 flex items-center">
                 <svg class="w-5 h-5 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
                 </svg>
-                <a :href="attraction.website" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:text-blue-700">{{ attraction.website }}</a>
+                <a :href="attraction.website" target="_blank" rel="noopener noreferrer" class="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300">{{ attraction.website }}</a>
               </p>
             </div>
 
             <div v-if="attraction.openingHours">
-              <h2 class="text-lg font-semibold text-gray-900 mb-2">{{ $t('form.opening_hours') }}</h2>
-              <p class="text-gray-600 flex items-center">
+              <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-2">{{ $t('form.opening_hours') }}</h2>
+              <p class="text-gray-600 dark:text-gray-400 flex items-center">
                 <svg class="w-5 h-5 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
@@ -157,8 +157,8 @@
             </div>
 
             <div v-if="attraction.price">
-              <h2 class="text-lg font-semibold text-gray-900 mb-2">{{ $t('form.price') }}</h2>
-              <p class="text-gray-600 flex items-center">
+              <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-2">{{ $t('form.price') }}</h2>
+              <p class="text-gray-600 dark:text-gray-400 flex items-center">
                 <svg class="w-5 h-5 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
@@ -170,12 +170,12 @@
       </div>
 
       <!-- Edit Form -->
-      <form v-else @submit.prevent="handleUpdate" class="bg-white rounded-lg shadow-md p-6 space-y-6">
-        <h2 class="text-2xl font-bold text-gray-900 mb-4">{{ $t('attractions.edit') }}</h2>
+      <form v-else @submit.prevent="handleUpdate" class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 space-y-6">
+        <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-4">{{ $t('attractions.edit') }}</h2>
 
         <!-- Name -->
         <div>
-          <label for="name" class="block text-sm font-medium text-gray-700 mb-2">
+          <label for="name" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
             {{ $t('form.name') }} <span class="text-red-500">*</span>
           </label>
           <input
@@ -183,14 +183,14 @@
             v-model="editForm.name"
             type="text"
             required
-            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
             :placeholder="$t('form.name_placeholder')"
           />
         </div>
 
         <!-- Description -->
         <div>
-          <label for="description" class="block text-sm font-medium text-gray-700 mb-2">
+          <label for="description" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
             {{ $t('form.description') }} <span class="text-red-500">*</span>
           </label>
           <textarea
@@ -198,21 +198,21 @@
             v-model="editForm.description"
             required
             rows="4"
-            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
             :placeholder="$t('form.description_placeholder')"
           />
         </div>
 
         <!-- Type -->
         <div>
-          <label for="type" class="block text-sm font-medium text-gray-700 mb-2">
+          <label for="type" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
             {{ $t('form.type') }} <span class="text-red-500">*</span>
           </label>
           <select
             id="type"
             v-model="editForm.type"
             required
-            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
           >
             <option value="museum">{{ $t('form.museum') }}</option>
             <option value="experience">{{ $t('form.experience') }}</option>
@@ -221,7 +221,7 @@
 
         <!-- Address -->
         <div>
-          <label for="address" class="block text-sm font-medium text-gray-700 mb-2">
+          <label for="address" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
             {{ $t('form.address') }} <span class="text-red-500">*</span>
           </label>
           <input
@@ -229,63 +229,63 @@
             v-model="editForm.address"
             type="text"
             required
-            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
             :placeholder="$t('form.address_placeholder')"
           />
         </div>
 
         <!-- Phone -->
         <div>
-          <label for="phone" class="block text-sm font-medium text-gray-700 mb-2">
+          <label for="phone" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
             {{ $t('form.phone') }}
           </label>
           <input
             id="phone"
             v-model="editForm.phone"
             type="tel"
-            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
             :placeholder="$t('form.phone_placeholder')"
           />
         </div>
 
         <!-- Website -->
         <div>
-          <label for="website" class="block text-sm font-medium text-gray-700 mb-2">
+          <label for="website" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
             {{ $t('form.website') }}
           </label>
           <input
             id="website"
             v-model="editForm.website"
             type="url"
-            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
             :placeholder="$t('form.website_placeholder')"
           />
         </div>
 
         <!-- Opening Hours -->
         <div>
-          <label for="openingHours" class="block text-sm font-medium text-gray-700 mb-2">
+          <label for="openingHours" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
             {{ $t('form.opening_hours') }}
           </label>
           <input
             id="openingHours"
             v-model="editForm.openingHours"
             type="text"
-            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
             :placeholder="$t('form.opening_hours_placeholder')"
           />
         </div>
 
         <!-- Price -->
         <div>
-          <label for="price" class="block text-sm font-medium text-gray-700 mb-2">
+          <label for="price" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
             {{ $t('form.price') }}
           </label>
           <input
             id="price"
             v-model="editForm.price"
             type="text"
-            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
             :placeholder="$t('form.price_placeholder')"
           />
         </div>

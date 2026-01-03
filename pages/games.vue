@@ -1,8 +1,8 @@
 <template>
   <div class="pb-20 md:pb-0">
     <div class="mb-6">
-      <h1 class="text-3xl font-bold text-gray-900 mb-2">{{ $t('games.title') }}</h1>
-      <p class="text-gray-600">{{ $t('games.description') }}</p>
+      <h1 class="text-3xl font-bold text-gray-900 dark:text-white mb-2">{{ $t('games.title') }}</h1>
+      <p class="text-gray-600 dark:text-gray-400">{{ $t('games.description') }}</p>
     </div>
 
     <!-- Games Grid -->

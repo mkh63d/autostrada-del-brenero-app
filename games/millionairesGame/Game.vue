@@ -2,7 +2,7 @@
   <div>
     <!-- Start Screen -->
     <div v-if="!started" class="text-center py-8">
-      <p class="text-gray-600 mb-6">{{ $t('games.millionaires.description') }}</p>
+      <p class="text-gray-600 dark:text-gray-400 mb-6">{{ $t('games.millionaires.description') }}</p>
       <button
         @click="start"
         class="bg-amber-600 text-white px-8 py-4 m-4 rounded-lg text-xl font-semibold hover:bg-amber-700 transition-colors"
@@ -15,15 +15,15 @@
     <div v-else-if="!gameOver" class="py-4">
       <!-- Prize Ladder -->
       <div class="mb-4 text-center">
-        <span class="text-lg font-medium text-gray-700">
+        <span class="text-lg font-medium text-gray-700 dark:text-gray-300">
           {{ $t('games.millionaires.question') }} {{ questionIndex + 1 }}/10
         </span>
-        <div class="text-2xl font-bold text-amber-600 mt-1">💰 {{ currentPrize }}</div>
+        <div class="text-2xl font-bold text-amber-600 dark:text-amber-400 mt-1">💰 {{ currentPrize }}</div>
       </div>
 
       <!-- Question -->
-      <div class="mb-6 p-4 bg-gradient-to-br from-amber-50 to-yellow-50 rounded-xl border-2 border-amber-200">
-        <p class="text-lg font-semibold text-gray-800 text-center">{{ currentQuestion?.question }}</p>
+      <div class="mb-6 p-4 bg-gradient-to-br from-amber-50 to-yellow-50 dark:from-amber-900/30 dark:to-yellow-900/30 rounded-xl border-2 border-amber-200 dark:border-amber-700">
+        <p class="text-lg font-semibold text-gray-800 dark:text-gray-200 text-center">{{ currentQuestion?.question }}</p>
       </div>
 
       <!-- Answers -->
@@ -60,15 +60,15 @@
       <!-- Winner -->
       <div v-if="won" class="mb-4">
         <span class="text-6xl">🎉</span>
-        <p class="text-2xl font-bold text-amber-600 mt-4">{{ $t('games.millionaires.winner') }}</p>
-        <p class="text-xl text-gray-600 mt-2">{{ prizeLevels[9] }}</p>
+        <p class="text-2xl font-bold text-amber-600 dark:text-amber-400 mt-4">{{ $t('games.millionaires.winner') }}</p>
+        <p class="text-xl text-gray-600 dark:text-gray-400 mt-2">{{ prizeLevels[9] }}</p>
       </div>
       
       <!-- Loser -->
       <div v-else class="mb-4">
         <span class="text-6xl">😢</span>
         <p class="text-2xl font-bold text-red-500 mt-4">{{ $t('games.millionaires.lost') }}</p>
-        <p class="text-lg text-gray-600 mt-2">
+        <p class="text-lg text-gray-600 dark:text-gray-400 mt-2">
           {{ $t('games.millionaires.correctWas') }}: 
           {{ currentQuestion?.answers[currentQuestion?.correctIndex] }}
         </p>

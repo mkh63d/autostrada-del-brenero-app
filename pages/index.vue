@@ -1,7 +1,7 @@
 <template>
   <div class="pb-20 md:pb-0">
     <div class="flex justify-between items-center mb-6">
-      <h1 class="text-3xl font-bold text-gray-900">{{ $t('attractions.title') }}</h1>
+      <h1 class="text-3xl font-bold text-gray-900 dark:text-white">{{ $t('attractions.title') }}</h1>
       <NuxtLink 
         to="/add" 
         class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors flex items-center space-x-2"
@@ -15,18 +15,18 @@
 
     <div v-if="loading" class="text-center py-12">
       <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
-      <p class="mt-4 text-gray-600">Loading...</p>
+      <p class="mt-4 text-gray-600 dark:text-gray-400">Loading...</p>
     </div>
 
-    <div v-else-if="error" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
+    <div v-else-if="error" class="bg-red-100 dark:bg-red-900/30 border border-red-400 dark:border-red-700 text-red-700 dark:text-red-400 px-4 py-3 rounded">
       {{ error }}
     </div>
 
     <div v-else-if="attractions.length === 0" class="text-center py-12">
-      <svg class="w-16 h-16 mx-auto text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <svg class="w-16 h-16 mx-auto text-gray-400 dark:text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
       </svg>
-      <p class="mt-4 text-xl text-gray-600">{{ $t('attractions.no_attractions') }}</p>
+      <p class="mt-4 text-xl text-gray-600 dark:text-gray-400">{{ $t('attractions.no_attractions') }}</p>
       <NuxtLink 
         to="/add" 
         class="mt-4 inline-block bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors"
@@ -39,30 +39,30 @@
       <div
         v-for="attraction in attractions"
         :key="attraction.id"
-        class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow"
+        class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow"
       >
         <div class="p-6">
           <div class="flex justify-between items-start mb-2">
-            <h2 class="text-xl font-semibold text-gray-900">{{ attraction.name }}</h2>
+            <h2 class="text-xl font-semibold text-gray-900 dark:text-white">{{ attraction.name }}</h2>
             <span 
               class="px-3 py-1 rounded-full text-xs font-medium"
-              :class="attraction.type === 'museum' ? 'bg-purple-100 text-purple-800' : 'bg-green-100 text-green-800'"
+              :class="attraction.type === 'museum' ? 'bg-purple-100 dark:bg-purple-900/50 text-purple-800 dark:text-purple-300' : 'bg-green-100 dark:bg-green-900/50 text-green-800 dark:text-green-300'"
             >
               {{ $t(`form.${attraction.type}`) }}
             </span>
           </div>
           
-          <p class="text-gray-600 mb-4 line-clamp-2">{{ attraction.description }}</p>
+          <p class="text-gray-600 dark:text-gray-400 mb-4 line-clamp-2">{{ attraction.description }}</p>
           
           <!-- Distance and Highway Info -->
-          <div v-if="getAttractionDistance(attraction.id)" class="mb-3 p-3 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg border border-blue-100">
-            <div class="flex items-center text-sm text-gray-700 mb-1">
+          <div v-if="getAttractionDistance(attraction.id)" class="mb-3 p-3 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/30 dark:to-indigo-900/30 rounded-lg border border-blue-100 dark:border-blue-800">
+            <div class="flex items-center text-sm text-gray-700 dark:text-gray-300 mb-1">
               <span class="mr-2">📍</span>
               <span class="font-semibold">{{ formatDistance(getAttractionDistance(attraction.id)!.distance) }}</span>
               <span class="mx-2">•</span>
-              <span class="text-gray-600">{{ formatDuration(getAttractionDistance(attraction.id)!.duration) }}</span>
+              <span class="text-gray-600 dark:text-gray-400">{{ formatDuration(getAttractionDistance(attraction.id)!.duration) }}</span>
             </div>
-            <div v-if="attraction.autostradeExit" class="text-xs text-gray-600 mt-1">
+            <div v-if="attraction.autostradeExit" class="text-xs text-gray-600 dark:text-gray-400 mt-1">
               <span class="mr-1">🛣️</span>
               <span class="font-medium">{{ $t('location.exit') }}:</span> {{ attraction.autostradeExit }}
               <span v-if="attraction.distanceFromExit" class="ml-2">
@@ -71,7 +71,7 @@
             </div>
           </div>
           
-          <div class="space-y-2 text-sm text-gray-500 mb-4">
+          <div class="space-y-2 text-sm text-gray-500 dark:text-gray-400 mb-4">
             <div v-if="attraction.address" class="flex items-start">
               <svg class="w-4 h-4 mr-2 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
@@ -97,7 +97,7 @@
           
           <NuxtLink 
             :to="`/attraction/${attraction.id}`"
-            class="block w-full text-center bg-blue-50 text-blue-600 px-4 py-2 rounded-lg hover:bg-blue-100 transition-colors"
+            class="block w-full text-center bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 px-4 py-2 rounded-lg hover:bg-blue-100 dark:hover:bg-blue-900/50 transition-colors"
           >
             {{ $t('attractions.view_details') }}
           </NuxtLink>

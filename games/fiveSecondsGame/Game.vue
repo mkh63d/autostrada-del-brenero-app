@@ -2,7 +2,7 @@
   <div class="text-center">
     <!-- Start Screen -->
     <div v-if="!started" class="py-8">
-      <p class="text-gray-600 mb-6">{{ $t('games.fiveSeconds.description') }}</p>
+      <p class="text-gray-600 dark:text-gray-400 mb-6">{{ $t('games.fiveSeconds.description') }}</p>
       <button
         @click="start"
         class="bg-blue-600 text-white px-8 py-4 rounded-lg text-xl font-semibold hover:bg-blue-700 transition-colors"
@@ -15,15 +15,15 @@
     <div v-else-if="!gameOver" class="py-4">
       <!-- Score Display -->
       <div class="mb-4 flex justify-center items-center space-x-4">
-        <span class="text-lg font-medium text-gray-700">{{ $t('games.fiveSeconds.score') }}:</span>
-        <span class="text-3xl font-bold text-blue-600">{{ score }}</span>
+        <span class="text-lg font-medium text-gray-700 dark:text-gray-300">{{ $t('games.fiveSeconds.score') }}:</span>
+        <span class="text-3xl font-bold text-blue-600 dark:text-blue-400">{{ score }}</span>
       </div>
 
       <!-- Timer Circle -->
       <div class="mb-4">
         <div class="relative w-28 h-28 mx-auto">
           <svg class="w-28 h-28 transform -rotate-90">
-            <circle cx="56" cy="56" r="48" stroke="#e5e7eb" stroke-width="8" fill="none"/>
+            <circle cx="56" cy="56" r="48" class="stroke-gray-200 dark:stroke-gray-600" stroke-width="8" fill="none"/>
             <circle
               cx="56" cy="56" r="48"
               :stroke="timeLeft <= 2 ? '#ef4444' : '#3b82f6'"
@@ -35,7 +35,7 @@
           </svg>
           <span 
             class="absolute inset-0 flex items-center justify-center text-4xl font-bold"
-            :class="timeLeft <= 2 ? 'text-red-500' : 'text-blue-600'"
+            :class="timeLeft <= 2 ? 'text-red-500' : 'text-blue-600 dark:text-blue-400'"
           >
             {{ timeLeft }}
           </span>
@@ -43,8 +43,8 @@
       </div>
 
       <!-- Question -->
-      <div class="mb-6 p-4 bg-blue-50 rounded-xl">
-        <p class="text-xl font-semibold text-gray-800">{{ currentQuestion }}</p>
+      <div class="mb-6 p-4 bg-blue-50 dark:bg-blue-900/30 rounded-xl">
+        <p class="text-xl font-semibold text-gray-800 dark:text-gray-200">{{ currentQuestion }}</p>
       </div>
 
       <!-- Result Message -->
@@ -81,8 +81,8 @@
 
     <!-- Game Over Screen -->
     <div v-else class="py-8">
-      <p class="text-2xl font-bold text-gray-800 mb-2">{{ $t('games.fiveSeconds.gameOver') }}</p>
-      <p class="text-xl text-gray-600 mb-4">
+      <p class="text-2xl font-bold text-gray-800 dark:text-white mb-2">{{ $t('games.fiveSeconds.gameOver') }}</p>
+      <p class="text-xl text-gray-600 dark:text-gray-400 mb-4">
         {{ $t('games.fiveSeconds.score') }}: {{ score }} / {{ totalQuestions }}
       </p>
       <button

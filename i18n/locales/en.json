@@ -17,7 +17,8 @@
     "confirm_delete": "Are you sure you want to delete this attraction?",
     "no_attractions": "No attractions yet. Add your first one!",
     "view_details": "View Details",
-    "back": "Back to List"
+    "back": "Back to List",
+    "notFound": "Attraction not found"
   },
   "form": {
     "name": "Name",
