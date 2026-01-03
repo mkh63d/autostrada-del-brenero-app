@@ -13,6 +13,72 @@
       </NuxtLink>
     </div>
 
+    <!-- Filter and Sort Controls -->
+    <div class="mb-6 space-y-4">
+      <!-- Search -->
+      <div class="relative">
+        <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+        </svg>
+        <input
+          v-model="searchQuery"
+          type="text"
+          :placeholder="$t('attractions.search_placeholder')"
+          class="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500"
+        />
+      </div>
+      
+      <!-- Filter and Sort Row -->
+      <div class="flex flex-col sm:flex-row gap-3">
+        <!-- Type Filter -->
+        <div class="flex items-center space-x-2">
+          <span class="text-sm text-gray-600 dark:text-gray-400">{{ $t('attractions.filter_type') }}:</span>
+          <div class="flex rounded-lg overflow-hidden border border-gray-300 dark:border-gray-600">
+            <button
+              @click="filterType = 'all'"
+              class="px-3 py-1.5 text-sm font-medium transition-colors"
+              :class="filterType === 'all' ? 'bg-blue-600 text-white' : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'"
+            >
+              {{ $t('attractions.all') }}
+            </button>
+            <button
+              @click="filterType = 'museum'"
+              class="px-3 py-1.5 text-sm font-medium transition-colors border-l border-gray-300 dark:border-gray-600"
+              :class="filterType === 'museum' ? 'bg-purple-600 text-white' : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'"
+            >
+              {{ $t('form.museum') }}
+            </button>
+            <button
+              @click="filterType = 'experience'"
+              class="px-3 py-1.5 text-sm font-medium transition-colors border-l border-gray-300 dark:border-gray-600"
+              :class="filterType === 'experience' ? 'bg-green-600 text-white' : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'"
+            >
+              {{ $t('form.experience') }}
+            </button>
+          </div>
+        </div>
+        
+        <!-- Sort -->
+        <div class="flex items-center space-x-2 sm:ml-auto">
+          <span class="text-sm text-gray-600 dark:text-gray-400">{{ $t('attractions.sort_by') }}:</span>
+          <select
+            v-model="sortBy"
+            class="px-3 py-1.5 text-sm border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          >
+            <option value="name-asc">{{ $t('attractions.sort_name_asc') }}</option>
+            <option value="name-desc">{{ $t('attractions.sort_name_desc') }}</option>
+            <option value="distance-asc">{{ $t('attractions.sort_distance_asc') }}</option>
+            <option value="distance-desc">{{ $t('attractions.sort_distance_desc') }}</option>
+          </select>
+        </div>
+      </div>
+      
+      <!-- Results count -->
+      <p v-if="!loading && filteredAttractions.length > 0" class="text-sm text-gray-500 dark:text-gray-400">
+        {{ $t('attractions.showing_results', { count: filteredAttractions.length, total: attractions.length }) }}
+      </p>
+    </div>
+
     <div v-if="loading" class="text-center py-12">
       <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
       <p class="mt-4 text-gray-600 dark:text-gray-400">Loading...</p>
@@ -35,9 +101,23 @@
       </NuxtLink>
     </div>
 
+    <!-- No results after filtering -->
+    <div v-else-if="filteredAttractions.length === 0" class="text-center py-12">
+      <svg class="w-16 h-16 mx-auto text-gray-400 dark:text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+      </svg>
+      <p class="mt-4 text-xl text-gray-600 dark:text-gray-400">{{ $t('attractions.no_results') }}</p>
+      <button 
+        @click="clearFilters"
+        class="mt-4 text-blue-600 dark:text-blue-400 hover:underline"
+      >
+        {{ $t('attractions.clear_filters') }}
+      </button>
+    </div>
+
     <div v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       <div
-        v-for="attraction in attractions"
+        v-for="attraction in filteredAttractions"
         :key="attraction.id"
         class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow"
       >
@@ -113,6 +193,11 @@ const { getUserLocation, getDistanceToAttraction, formatDistance, formatDuration
 
 const attractionDistances = ref<Map<string, { distance: number; duration: number }>>(new Map());
 
+// Filter and sort state
+const searchQuery = ref('');
+const filterType = ref<'all' | 'museum' | 'experience'>('all');
+const sortBy = ref<'name-asc' | 'name-desc' | 'distance-asc' | 'distance-desc'>('name-asc');
+
 onMounted(async () => {
   await loadAttractions();
   try {
@@ -132,6 +217,57 @@ onMounted(async () => {
 
 const getAttractionDistance = (attractionId: string) => {
   return attractionDistances.value.get(attractionId);
+};
+
+// Filtered and sorted attractions
+const filteredAttractions = computed(() => {
+  let result = [...attractions.value];
+  
+  // Text search
+  if (searchQuery.value.trim()) {
+    const query = searchQuery.value.toLowerCase().trim();
+    result = result.filter(a => 
+      a.name.toLowerCase().includes(query) ||
+      a.description?.toLowerCase().includes(query) ||
+      a.address?.toLowerCase().includes(query)
+    );
+  }
+  
+  // Type filter
+  if (filterType.value !== 'all') {
+    result = result.filter(a => a.type === filterType.value);
+  }
+  
+  // Sorting
+  result.sort((a, b) => {
+    switch (sortBy.value) {
+      case 'name-asc':
+        return a.name.localeCompare(b.name);
+      case 'name-desc':
+        return b.name.localeCompare(a.name);
+      case 'distance-asc': {
+        const distA = getAttractionDistance(a.id!)?.distance ?? Infinity;
+        const distB = getAttractionDistance(b.id!)?.distance ?? Infinity;
+        return distA - distB;
+      }
+      case 'distance-desc': {
+        const distA = getAttractionDistance(a.id!)?.distance ?? -Infinity;
+        const distB = getAttractionDistance(b.id!)?.distance ?? -Infinity;
+        return distB - distA;
+      }
+      default:
+        return 0;
+    }
+  });
+  
+  return result;
+});
+
+// Clear all filters
+const clearFilters = () => {
+  searchQuery.value = '';
+  filterType.value = 'all';
+  sortBy.value = 'name-asc';
 };
 </script>
 

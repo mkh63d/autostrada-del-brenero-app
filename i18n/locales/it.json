@@ -16,9 +16,20 @@
     "delete": "Elimina",
     "confirm_delete": "Sei sicuro di voler eliminare questa attrazione?",
     "no_attractions": "Nessuna attrazione ancora. Aggiungi la prima!",
+    "no_results": "Nessuna attrazione corrisponde ai tuoi filtri",
+    "clear_filters": "Cancella filtri",
     "view_details": "Vedi dettagli",
     "back": "Torna alla lista",
-    "notFound": "Attrazione non trovata"
+    "notFound": "Attrazione non trovata",
+    "search_placeholder": "Cerca attrazioni...",
+    "filter_type": "Tipo",
+    "all": "Tutti",
+    "sort_by": "Ordina per",
+    "sort_name_asc": "Nome (A-Z)",
+    "sort_name_desc": "Nome (Z-A)",
+    "sort_distance_asc": "Più vicini",
+    "sort_distance_desc": "Più lontani",
+    "showing_results": "Mostrando {count} di {total} attrazioni"
   },
   "form": {
     "name": "Nome",

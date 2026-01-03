@@ -16,9 +16,20 @@
     "delete": "Usuń",
     "confirm_delete": "Czy na pewno chcesz usunąć tę atrakcję?",
     "no_attractions": "Brak atrakcji. Dodaj pierwszą!",
+    "no_results": "Brak atrakcji pasujących do filtrów",
+    "clear_filters": "Wyczyść filtry",
     "view_details": "Zobacz szczegóły",
     "back": "Powrót do listy",
-    "notFound": "Nie znaleziono atrakcji"
+    "notFound": "Nie znaleziono atrakcji",
+    "search_placeholder": "Szukaj atrakcji...",
+    "filter_type": "Typ",
+    "all": "Wszystkie",
+    "sort_by": "Sortuj według",
+    "sort_name_asc": "Nazwa (A-Z)",
+    "sort_name_desc": "Nazwa (Z-A)",
+    "sort_distance_asc": "Najbliższe",
+    "sort_distance_desc": "Najdalsze",
+    "showing_results": "Pokazuje {count} z {total} atrakcji"
   },
   "form": {
     "name": "Nazwa",
