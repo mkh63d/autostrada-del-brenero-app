@@ -1,5 +1,14 @@
 version: '3.8'
 
+# =============================================================================
+# DEVELOPMENT COMPOSE - Single source of truth for builds
+# Usage: docker compose up -d --build
+# =============================================================================
+
+x-common-labels: &common-labels
+  org.opencontainers.image.source: "https://github.com/YOUR_ORG/autostrada-del-brenero"
+  org.opencontainers.image.revision: "${GIT_SHA:-local}"
+
 services:
   # PostgreSQL Database
   db:
@@ -25,6 +34,9 @@ services:
     build:
       context: ./backend
       target: development
+      labels:
+        <<: *common-labels
+    image: ghcr.io/your_org/autostrada-backend:${IMAGE_TAG:-dev}
     container_name: autostrada-backend
     restart: unless-stopped
     environment:
@@ -50,6 +62,9 @@ services:
     build:
       context: ./frontend
       target: development
+      labels:
+        <<: *common-labels
+    image: ghcr.io/your_org/autostrada-frontend:${IMAGE_TAG:-dev}
     container_name: autostrada-frontend
     restart: unless-stopped
     environment:

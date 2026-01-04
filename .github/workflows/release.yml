@@ -1,0 +1,158 @@
+# =============================================================================
+# Release Pipeline - Promote images to production
+# Triggered on: Git tag push (v*)
+# =============================================================================
+name: Release - Promote to Production
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_PREFIX: ${{ github.repository_owner }}/autostrada
+
+jobs:
+  # ---------------------------------------------------------------------------
+  # Validate release tag
+  # ---------------------------------------------------------------------------
+  validate:
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+      sha: ${{ steps.sha.outputs.sha }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Extract version
+        id: version
+        run: |
+          VERSION=${GITHUB_REF#refs/tags/}
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "Releasing version: $VERSION"
+
+      - name: Get commit SHA for tag
+        id: sha
+        run: |
+          SHA=$(git rev-list -n 1 ${{ github.ref }})
+          SHORT_SHA=${SHA::7}
+          echo "sha=$SHORT_SHA" >> $GITHUB_OUTPUT
+          echo "Tag points to commit: $SHORT_SHA"
+
+      - name: Verify images exist
+        run: |
+          for SERVICE in backend frontend; do
+            IMAGE="${{ env.REGISTRY }}/${{ env.IMAGE_PREFIX }}-${SERVICE}:sha-${{ steps.sha.outputs.sha }}"
+            echo "Checking: $IMAGE"
+            docker manifest inspect $IMAGE || {
+              echo "ERROR: Image not found: $IMAGE"
+              echo "The commit must be built before releasing."
+              exit 1
+            }
+          done
+        env:
+          DOCKER_CLI_EXPERIMENTAL: enabled
+
+  # ---------------------------------------------------------------------------
+  # Promote images (retag, no rebuild)
+  # ---------------------------------------------------------------------------
+  promote:
+    needs: validate
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    strategy:
+      matrix:
+        service: [backend, frontend]
+    steps:
+      - name: Log in to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Promote image
+        run: |
+          SOURCE="${{ env.REGISTRY }}/${{ env.IMAGE_PREFIX }}-${{ matrix.service }}:sha-${{ needs.validate.outputs.sha }}"
+          
+          # Pull the source image
+          docker pull $SOURCE
+          
+          # Tag with prod and version
+          docker tag $SOURCE "${{ env.REGISTRY }}/${{ env.IMAGE_PREFIX }}-${{ matrix.service }}:prod"
+          docker tag $SOURCE "${{ env.REGISTRY }}/${{ env.IMAGE_PREFIX }}-${{ matrix.service }}:${{ needs.validate.outputs.version }}"
+          docker tag $SOURCE "${{ env.REGISTRY }}/${{ env.IMAGE_PREFIX }}-${{ matrix.service }}:latest"
+          
+          # Push all tags
+          docker push "${{ env.REGISTRY }}/${{ env.IMAGE_PREFIX }}-${{ matrix.service }}:prod"
+          docker push "${{ env.REGISTRY }}/${{ env.IMAGE_PREFIX }}-${{ matrix.service }}:${{ needs.validate.outputs.version }}"
+          docker push "${{ env.REGISTRY }}/${{ env.IMAGE_PREFIX }}-${{ matrix.service }}:latest"
+          
+          echo "✅ Promoted ${{ matrix.service }} to prod, ${{ needs.validate.outputs.version }}, latest"
+
+  # ---------------------------------------------------------------------------
+  # Create GitHub Release
+  # ---------------------------------------------------------------------------
+  release:
+    needs: [validate, promote]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Generate release notes
+        id: notes
+        run: |
+          cat > release-notes.md << 'EOF'
+          ## Docker Images
+          
+          | Service | Image |
+          |---------|-------|
+          | Backend | `${{ env.REGISTRY }}/${{ env.IMAGE_PREFIX }}-backend:${{ needs.validate.outputs.version }}` |
+          | Frontend | `${{ env.REGISTRY }}/${{ env.IMAGE_PREFIX }}-frontend:${{ needs.validate.outputs.version }}` |
+          
+          ## Deployment
+          
+          ```bash
+          # Pull and deploy
+          export IMAGE_TAG=${{ needs.validate.outputs.version }}
+          docker compose -f docker-compose.prod.yml pull
+          docker compose -f docker-compose.prod.yml up -d
+          ```
+          
+          ## Image Digest
+          
+          These images are identical to `sha-${{ needs.validate.outputs.sha }}` (commit: ${{ needs.validate.outputs.sha }})
+          EOF
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v1
+        with:
+          body_path: release-notes.md
+          generate_release_notes: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  # ---------------------------------------------------------------------------
+  # Notify deployment (optional webhook)
+  # ---------------------------------------------------------------------------
+  notify:
+    needs: [validate, promote, release]
+    runs-on: ubuntu-latest
+    if: always()
+    steps:
+      - name: Deployment notification
+        run: |
+          if [ "${{ needs.promote.result }}" == "success" ]; then
+            echo "✅ Release ${{ needs.validate.outputs.version }} promoted successfully"
+            # Add webhook notification here if needed
+            # curl -X POST ${{ secrets.DEPLOY_WEBHOOK }} -d '{"version": "${{ needs.validate.outputs.version }}"}'
+          else
+            echo "❌ Release failed"
+          fi
