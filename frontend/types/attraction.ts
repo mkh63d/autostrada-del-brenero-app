@@ -12,6 +12,7 @@ export interface Attraction {
   longitude?: number;
   autostradeExit?: string;
   distanceFromExit?: number;
+  featured?: boolean;
   createdAt: Date;
   updatedAt: Date;
 }

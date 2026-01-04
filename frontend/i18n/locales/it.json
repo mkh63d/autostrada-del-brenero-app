@@ -242,5 +242,22 @@
       "theyWatching": "Nota: La fonte del segnale ha iniziato ad analizzare i tuoi schemi di decodifica...",
       "playAgain": "Nuovo Segnale"
     }
+  },
+  "offline": {
+    "banner": "Sei offline — utilizzo dati memorizzati",
+    "backOnline": "Sei di nuovo online!",
+    "submissionNote": "Sei offline. La tua proposta verrà salvata e inviata quando tornerai online.",
+    "usingCached": "Mostrando attrazioni memorizzate dalla tua ultima visita"
+  },
+  "submissions": {
+    "title": "Proponi Nuova Attrazione",
+    "description": "Suggerisci una nuova attrazione per il corridoio A22. La tua proposta sarà esaminata dal nostro team prima della pubblicazione.",
+    "submitted": "Attrazione inviata per la revisione!",
+    "pendingReview": "La tua proposta è in attesa di revisione",
+    "submitterInfo": "Le Tue Informazioni (Opzionale)",
+    "email": "Email",
+    "emailPlaceholder": "tua{'@'}email.com",
+    "yourName": "Il Tuo Nome",
+    "yourNamePlaceholder": "Il tuo nome"
   }
 }

@@ -188,7 +188,8 @@
 </template>
 
 <script setup lang="ts">
-const { attractions, loading, error, loadAttractions } = useAttractions();
+const { attractions, loading, error, isSynced } = useAttractions();
+const { isOnline } = useOnlineStatus();
 const { getUserLocation, getDistanceToAttraction, formatDistance, formatDuration, userLocation } = useGeolocation();
 
 const attractionDistances = ref<Map<string, { distance: number; duration: number }>>(new Map());
@@ -199,7 +200,8 @@ const filterType = ref<'all' | 'museum' | 'experience'>('all');
 const sortBy = ref<'name-asc' | 'name-desc' | 'distance-asc' | 'distance-desc'>('name-asc');
 
 onMounted(async () => {
-  await loadAttractions();
+  // Data is already synced by the initData plugin
+  // Just load geolocation data for distance calculations
   try {
     await getUserLocation();
     for (const attraction of attractions.value) {

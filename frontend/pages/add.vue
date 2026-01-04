@@ -1,17 +1,40 @@
 <template>
   <div class="pb-20 md:pb-0">
     <div class="max-w-2xl mx-auto">
-      <h1 class="text-3xl font-bold text-gray-900 mb-6">{{ $t('attractions.add') }}</h1>
+      <h1 class="text-3xl font-bold text-gray-900 dark:text-white mb-6">{{ $t('submissions.title') }}</h1>
+      
+      <p class="text-gray-600 dark:text-gray-400 mb-6">{{ $t('submissions.description') }}</p>
 
-      <div v-if="successMessage" class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
-        {{ successMessage }}
+      <!-- Offline notice -->
+      <div v-if="!isOnline" class="bg-yellow-50 dark:bg-yellow-900/30 border border-yellow-200 dark:border-yellow-700 text-yellow-800 dark:text-yellow-200 px-4 py-3 rounded-lg mb-4 flex items-center">
+        <svg class="w-5 h-5 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 5.636a9 9 0 010 12.728m0 0l-2.829-2.829m2.829 2.829L21 21M15.536 8.464a5 5 0 010 7.072m0 0l-2.829-2.829m-4.243 2.829a4.978 4.978 0 01-1.414-2.83m-1.414 5.658a9 9 0 01-2.167-9.238m7.824 2.167a1 1 0 111.414 1.414m-1.414-1.414L3 3" />
+        </svg>
+        <span>{{ $t('offline.submissionNote') }}</span>
       </div>
 
-      <div v-if="errorMessage" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+      <div v-if="successMessage" :class="[
+        'px-4 py-3 rounded-lg mb-4',
+        pendingOffline 
+          ? 'bg-yellow-100 dark:bg-yellow-900/30 border border-yellow-400 dark:border-yellow-700 text-yellow-700 dark:text-yellow-400' 
+          : 'bg-green-100 dark:bg-green-900/30 border border-green-400 dark:border-green-700 text-green-700 dark:text-green-400'
+      ]">
+        <div class="flex items-center">
+          <svg v-if="pendingOffline" class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          <svg v-else class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+          </svg>
+          {{ successMessage }}
+        </div>
+      </div>
+
+      <div v-if="errorMessage" class="bg-red-100 dark:bg-red-900/30 border border-red-400 dark:border-red-700 text-red-700 dark:text-red-400 px-4 py-3 rounded mb-4">
         {{ errorMessage }}
       </div>
 
-      <form @submit.prevent="handleSubmit" class="bg-white rounded-lg shadow-md p-6 space-y-6">
+      <form @submit.prevent="handleSubmit" class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 space-y-6">
         <!-- Name -->
         <div>
           <label for="name" class="block text-sm font-medium text-gray-700 mb-2">
@@ -217,7 +240,8 @@
 </template>
 
 <script setup lang="ts">
-const { addAttraction, loading } = useAttractions();
+const { submitAttraction, submitting } = useSubmissions();
+const { isOnline } = useOnlineStatus();
 const { t } = useI18n();
 const router = useRouter();
 
@@ -233,33 +257,40 @@ const form = reactive({
   latitude: undefined as number | undefined,
   longitude: undefined as number | undefined,
   autostradeExit: '',
-  distanceFromExit: undefined as number | undefined
+  distanceFromExit: undefined as number | undefined,
+  submitterEmail: '',
+  submitterName: ''
 });
 
 const successMessage = ref('');
 const errorMessage = ref('');
+const pendingOffline = ref(false);
 
 const handleSubmit = async () => {
   successMessage.value = '';
   errorMessage.value = '';
+  pendingOffline.value = false;
 
-  try {
-    await addAttraction({
-      name: form.name,
-      description: form.description,
-      type: form.type,
-      address: form.address,
-      phone: form.phone || undefined,
-      website: form.website || undefined,
-      openingHours: form.openingHours || undefined,
-      price: form.price || undefined,
-      latitude: form.latitude,
-      longitude: form.longitude,
-      autostradeExit: form.autostradeExit || undefined,
-      distanceFromExit: form.distanceFromExit
-    });
+  const result = await submitAttraction({
+    name: form.name,
+    description: form.description,
+    type: form.type,
+    address: form.address,
+    phone: form.phone || undefined,
+    website: form.website || undefined,
+    openingHours: form.openingHours || undefined,
+    price: form.price || undefined,
+    latitude: form.latitude,
+    longitude: form.longitude,
+    autostradeExit: form.autostradeExit || undefined,
+    distanceFromExit: form.distanceFromExit,
+    submitterEmail: form.submitterEmail || undefined,
+    submitterName: form.submitterName || undefined
+  });
 
-    successMessage.value = t('messages.added');
+  if (result.success) {
+    successMessage.value = result.message;
+    pendingOffline.value = result.pendingOffline || false;
     
     // Reset form
     form.name = '';
@@ -274,13 +305,18 @@ const handleSubmit = async () => {
     form.longitude = undefined;
     form.autostradeExit = '';
     form.distanceFromExit = undefined;
+    form.submitterEmail = '';
+    form.submitterName = '';
 
-    // Redirect to home after 1.5 seconds
+    // Redirect to home after delay (longer if offline to let user read message)
     setTimeout(() => {
       router.push('/');
-    }, 1500);
-  } catch (error) {
-    errorMessage.value = t('messages.error');
+    }, result.pendingOffline ? 3000 : 1500);
+  } else {
+    errorMessage.value = result.message;
   }
 };
+
+// Computed for loading state
+const loading = computed(() => submitting.value);
 </script>

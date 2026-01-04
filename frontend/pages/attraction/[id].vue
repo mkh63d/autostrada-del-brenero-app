@@ -22,39 +22,26 @@
         </NuxtLink>
       </div>
 
-      <div v-if="successMessage" class="bg-green-100 dark:bg-green-900/30 border border-green-400 dark:border-green-700 text-green-700 dark:text-green-400 px-4 py-3 rounded mb-4">
-        {{ successMessage }}
-      </div>
-
       <div v-if="errorMessage" class="bg-red-100 dark:bg-red-900/30 border border-red-400 dark:border-red-700 text-red-700 dark:text-red-400 px-4 py-3 rounded mb-4">
         {{ errorMessage }}
       </div>
 
-      <div v-if="!isEditing" class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden">
+      <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden">
         <div class="p-8">
           <div class="flex justify-between items-start mb-6">
             <div>
               <h1 class="text-3xl font-bold text-gray-900 dark:text-white mb-2">{{ attraction.name }}</h1>
-              <span 
-                class="px-3 py-1 rounded-full text-sm font-medium"
-                :class="attraction.type === 'museum' ? 'bg-purple-100 dark:bg-purple-900/50 text-purple-800 dark:text-purple-300' : 'bg-green-100 dark:bg-green-900/50 text-green-800 dark:text-green-300'"
-              >
-                {{ $t(`form.${attraction.type}`) }}
-              </span>
-            </div>
-            <div class="flex space-x-2">
-              <button
-                @click="isEditing = true"
-                class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
-              >
-                {{ $t('attractions.edit') }}
-              </button>
-              <button
-                @click="confirmDelete"
-                class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors"
-              >
-                {{ $t('attractions.delete') }}
-              </button>
+              <div class="flex items-center space-x-2">
+                <span 
+                  class="px-3 py-1 rounded-full text-sm font-medium"
+                  :class="attraction.type === 'museum' ? 'bg-purple-100 dark:bg-purple-900/50 text-purple-800 dark:text-purple-300' : 'bg-green-100 dark:bg-green-900/50 text-green-800 dark:text-green-300'"
+                >
+                  {{ $t(`form.${attraction.type}`) }}
+                </span>
+                <span v-if="attraction.featured" class="px-3 py-1 rounded-full text-sm font-medium bg-yellow-100 dark:bg-yellow-900/50 text-yellow-800 dark:text-yellow-300">
+                  ⭐ Featured
+                </span>
+              </div>
             </div>
           </div>
 
@@ -168,146 +155,6 @@
           </div>
         </div>
       </div>
-
-      <!-- Edit Form -->
-      <form v-else @submit.prevent="handleUpdate" class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 space-y-6">
-        <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-4">{{ $t('attractions.edit') }}</h2>
-
-        <!-- Name -->
-        <div>
-          <label for="name" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-            {{ $t('form.name') }} <span class="text-red-500">*</span>
-          </label>
-          <input
-            id="name"
-            v-model="editForm.name"
-            type="text"
-            required
-            class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
-            :placeholder="$t('form.name_placeholder')"
-          />
-        </div>
-
-        <!-- Description -->
-        <div>
-          <label for="description" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-            {{ $t('form.description') }} <span class="text-red-500">*</span>
-          </label>
-          <textarea
-            id="description"
-            v-model="editForm.description"
-            required
-            rows="4"
-            class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
-            :placeholder="$t('form.description_placeholder')"
-          />
-        </div>
-
-        <!-- Type -->
-        <div>
-          <label for="type" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-            {{ $t('form.type') }} <span class="text-red-500">*</span>
-          </label>
-          <select
-            id="type"
-            v-model="editForm.type"
-            required
-            class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
-          >
-            <option value="museum">{{ $t('form.museum') }}</option>
-            <option value="experience">{{ $t('form.experience') }}</option>
-          </select>
-        </div>
-
-        <!-- Address -->
-        <div>
-          <label for="address" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-            {{ $t('form.address') }} <span class="text-red-500">*</span>
-          </label>
-          <input
-            id="address"
-            v-model="editForm.address"
-            type="text"
-            required
-            class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
-            :placeholder="$t('form.address_placeholder')"
-          />
-        </div>
-
-        <!-- Phone -->
-        <div>
-          <label for="phone" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-            {{ $t('form.phone') }}
-          </label>
-          <input
-            id="phone"
-            v-model="editForm.phone"
-            type="tel"
-            class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
-            :placeholder="$t('form.phone_placeholder')"
-          />
-        </div>
-
-        <!-- Website -->
-        <div>
-          <label for="website" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-            {{ $t('form.website') }}
-          </label>
-          <input
-            id="website"
-            v-model="editForm.website"
-            type="url"
-            class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
-            :placeholder="$t('form.website_placeholder')"
-          />
-        </div>
-
-        <!-- Opening Hours -->
-        <div>
-          <label for="openingHours" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-            {{ $t('form.opening_hours') }}
-          </label>
-          <input
-            id="openingHours"
-            v-model="editForm.openingHours"
-            type="text"
-            class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
-            :placeholder="$t('form.opening_hours_placeholder')"
-          />
-        </div>
-
-        <!-- Price -->
-        <div>
-          <label for="price" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-            {{ $t('form.price') }}
-          </label>
-          <input
-            id="price"
-            v-model="editForm.price"
-            type="text"
-            class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
-            :placeholder="$t('form.price_placeholder')"
-          />
-        </div>
-
-        <!-- Buttons -->
-        <div class="flex space-x-4">
-          <button
-            type="submit"
-            :disabled="loading"
-            class="flex-1 bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed"
-          >
-            {{ loading ? 'Saving...' : $t('form.save') }}
-          </button>
-          <button
-            type="button"
-            @click="cancelEdit"
-            class="flex-1 bg-gray-200 text-gray-700 px-6 py-3 rounded-lg hover:bg-gray-300 transition-colors"
-          >
-            {{ $t('form.cancel') }}
-          </button>
-        </div>
-      </form>
     </div>
   </div>
 </template>
@@ -316,43 +163,21 @@
 import type { Attraction } from '~/types/attraction';
 
 const route = useRoute();
-const router = useRouter();
-const { t } = useI18n();
-const { getAttraction, updateAttraction, deleteAttraction, loading } = useAttractions();
+const { getAttraction } = useAttractions();
 const { getDistanceToAttraction, formatDistance, formatDuration, getUserLocation, userLocation } = useGeolocation();
 
 const attraction = ref<Attraction | null>(null);
-const isEditing = ref(false);
-const successMessage = ref('');
+const loading = ref(true);
 const errorMessage = ref('');
 const distanceInfo = ref<{ distance: number; duration: number } | null>(null);
 const showRouteMap = ref(false);
 
-const editForm = reactive({
-  name: '',
-  description: '',
-  type: 'museum' as 'museum' | 'experience',
-  address: '',
-  phone: '',
-  website: '',
-  openingHours: '',
-  price: ''
-});
-
 const loadAttraction = async () => {
+  loading.value = true;
   const id = route.params.id as string;
   attraction.value = await getAttraction(id);
   
   if (attraction.value) {
-    editForm.name = attraction.value.name;
-    editForm.description = attraction.value.description;
-    editForm.type = attraction.value.type;
-    editForm.address = attraction.value.address;
-    editForm.phone = attraction.value.phone || '';
-    editForm.website = attraction.value.website || '';
-    editForm.openingHours = attraction.value.openingHours || '';
-    editForm.price = attraction.value.price || '';
-    
     // Calculate distance
     if (attraction.value.latitude && attraction.value.longitude) {
       try {
@@ -366,64 +191,7 @@ const loadAttraction = async () => {
       }
     }
   }
-};
-
-const handleUpdate = async () => {
-  if (!attraction.value) return;
-  
-  successMessage.value = '';
-  errorMessage.value = '';
-
-  try {
-    const updated = await updateAttraction(attraction.value.id, {
-      name: editForm.name,
-      description: editForm.description,
-      type: editForm.type,
-      address: editForm.address,
-      phone: editForm.phone || undefined,
-      website: editForm.website || undefined,
-      openingHours: editForm.openingHours || undefined,
-      price: editForm.price || undefined
-    });
-
-    attraction.value = updated;
-    isEditing.value = false;
-    successMessage.value = t('messages.updated');
-  } catch (error) {
-    errorMessage.value = t('messages.error');
-  }
-};
-
-const cancelEdit = () => {
-  if (attraction.value) {
-    editForm.name = attraction.value.name;
-    editForm.description = attraction.value.description;
-    editForm.type = attraction.value.type;
-    editForm.address = attraction.value.address;
-    editForm.phone = attraction.value.phone || '';
-    editForm.website = attraction.value.website || '';
-    editForm.openingHours = attraction.value.openingHours || '';
-    editForm.price = attraction.value.price || '';
-  }
-  isEditing.value = false;
-  errorMessage.value = '';
-};
-
-const confirmDelete = () => {
-  if (confirm(t('attractions.confirm_delete'))) {
-    handleDelete();
-  }
-};
-
-const handleDelete = async () => {
-  if (!attraction.value) return;
-
-  try {
-    await deleteAttraction(attraction.value.id);
-    router.push('/');
-  } catch (error) {
-    errorMessage.value = t('messages.error');
-  }
+  loading.value = false;
 };
 
 onMounted(() => {

@@ -242,5 +242,22 @@
       "theyWatching": "Note: The signal source has begun analyzing your decoding patterns...",
       "playAgain": "New Signal"
     }
+  },
+  "offline": {
+    "banner": "You're offline — using cached data",
+    "backOnline": "You're back online!",
+    "submissionNote": "You're offline. Your submission will be saved and sent when you're back online.",
+    "usingCached": "Showing cached attractions from your last visit"
+  },
+  "submissions": {
+    "title": "Submit New Attraction",
+    "description": "Suggest a new attraction for the A22 corridor. Your submission will be reviewed by our team before being published.",
+    "submitted": "Attraction submitted for review!",
+    "pendingReview": "Your submission is pending review",
+    "submitterInfo": "Your Information (Optional)",
+    "email": "Email",
+    "emailPlaceholder": "your{'@'}email.com",
+    "yourName": "Your Name",
+    "yourNamePlaceholder": "Your name"
   }
 }

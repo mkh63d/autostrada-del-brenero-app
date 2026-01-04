@@ -242,5 +242,22 @@
       "theyWatching": "Uwaga: Źródło sygnału zaczęło analizować twoje wzorce dekodowania...",
       "playAgain": "Nowy Sygnał"
     }
+  },
+  "offline": {
+    "banner": "Jesteś offline — używam zapisanych danych",
+    "backOnline": "Jesteś z powrotem online!",
+    "submissionNote": "Jesteś offline. Twoje zgłoszenie zostanie zapisane i wysłane gdy wrócisz online.",
+    "usingCached": "Wyświetlam zapisane atrakcje z ostatniej wizyty"
+  },
+  "submissions": {
+    "title": "Zgłoś Nową Atrakcję",
+    "description": "Zaproponuj nową atrakcję wzdłuż autostrady A22. Twoje zgłoszenie zostanie sprawdzone przez nasz zespół przed publikacją.",
+    "submitted": "Atrakcja zgłoszona do recenzji!",
+    "pendingReview": "Twoje zgłoszenie oczekuje na recenzję",
+    "submitterInfo": "Twoje Dane (Opcjonalnie)",
+    "email": "Email",
+    "emailPlaceholder": "twoj{'@'}email.com",
+    "yourName": "Twoje Imię",
+    "yourNamePlaceholder": "Twoje imię"
   }
 }

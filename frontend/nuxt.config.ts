@@ -5,6 +5,12 @@ export default defineNuxtConfig({
   
   ssr: true,
   
+  runtimeConfig: {
+    public: {
+      apiUrl: process.env.NUXT_PUBLIC_API_URL || 'http://localhost:8000/api'
+    }
+  },
+  
   nitro: {
     preset: 'static',
     prerender: {
