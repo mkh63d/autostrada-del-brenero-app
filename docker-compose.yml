@@ -36,7 +36,7 @@ services:
       target: development
       labels:
         <<: *common-labels
-    image: ghcr.io/your_org/autostrada-backend:${IMAGE_TAG:-dev}
+    image: ghcr.io/mkh63d/autostrada-backend:${IMAGE_TAG:-dev}
     container_name: autostrada-backend
     restart: unless-stopped
     environment:
@@ -64,7 +64,7 @@ services:
       target: development
       labels:
         <<: *common-labels
-    image: ghcr.io/your_org/autostrada-frontend:${IMAGE_TAG:-dev}
+    image: ghcr.io/mkh63d/autostrada-frontend:${IMAGE_TAG:-dev}
     container_name: autostrada-frontend
     restart: unless-stopped
     environment:

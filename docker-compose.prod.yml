@@ -27,7 +27,7 @@ services:
 
   # Django Backend API (pre-built image, no build context)
   backend:
-    image: ghcr.io/your_org/autostrada-backend:${IMAGE_TAG:-prod}
+    image: ghcr.io/mkh63d/autostrada-backend:${IMAGE_TAG:-prod}
     container_name: autostrada-backend-prod
     restart: always
     environment:
@@ -52,7 +52,7 @@ services:
 
   # Nuxt.js Frontend (pre-built image, no build context)
   frontend:
-    image: ghcr.io/your_org/autostrada-frontend:${IMAGE_TAG:-prod}
+    image: ghcr.io/mkh63d/autostrada-frontend:${IMAGE_TAG:-prod}
     container_name: autostrada-frontend-prod
     restart: always
     environment:
