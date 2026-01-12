@@ -1,0 +1,76 @@
+version: '3.8'
+
+# =============================================================================
+# PRODUCTION COMPOSE - Image-only, no builds
+# Usage: docker compose -f docker-compose.prod.yml pull && docker compose -f docker-compose.prod.yml up -d
+# =============================================================================
+
+services:
+  # PostgreSQL Database
+  db:
+    image: postgres:16-alpine
+    container_name: autostrada-db-prod
+    restart: always
+    environment:
+      POSTGRES_DB: autostrada_db
+      POSTGRES_USER: autostrada
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U autostrada -d autostrada_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - internal
+
+  # Django Backend API (pre-built image, no build context)
+  backend:
+    image: ghcr.io/mkh63d/autostrada-backend:${IMAGE_TAG:-prod}
+    container_name: autostrada-backend-prod
+    restart: always
+    environment:
+      DEBUG: "False"
+      SECRET_KEY: ${SECRET_KEY}
+      ALLOWED_HOSTS: ${ALLOWED_HOSTS:-localhost}
+      DATABASE_URL: postgres://autostrada:${DB_PASSWORD}@db:5432/autostrada_db
+      CORS_ALLOWED_ORIGINS: ${CORS_ALLOWED_ORIGINS}
+    volumes:
+      - backend_static:/app/staticfiles
+      - backend_media:/app/media
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - internal
+      - web
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.backend.rule=Host(`api.${DOMAIN}`)"
+      - "traefik.http.services.backend.loadbalancer.server.port=8000"
+
+  # Nuxt.js Frontend (pre-built image, no build context)
+  frontend:
+    image: ghcr.io/mkh63d/autostrada-frontend:${IMAGE_TAG:-prod}
+    container_name: autostrada-frontend-prod
+    restart: always
+    environment:
+      NUXT_PUBLIC_API_URL: https://api.${DOMAIN}
+    networks:
+      - web
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.frontend.rule=Host(`${DOMAIN}`)"
+      - "traefik.http.services.frontend.loadbalancer.server.port=3000"
+
+volumes:
+  postgres_data:
+  backend_static:
+  backend_media:
+
+networks:
+  internal:
+    driver: bridge
+  web:
+    external: true

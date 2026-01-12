@@ -1,24 +1,25 @@
-# Nuxt dev/build outputs
-.output
-.data
-.nuxt
-.nitro
-.cache
-dist
-
-# Node dependencies
-node_modules
-
-# Logs
-logs
-*.log
-
-# Misc
-.DS_Store
-.fleet
-.idea
-
-# Local env files
+# Environment files
 .env
 .env.*
-!.env.example
+!.env.*.example
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Docker volumes (if mounted locally)
+postgres_data/
+
+# Logs
+*.log
+logs/
+
+# SSL certificates (if stored locally)
+certs/
+ssl/
