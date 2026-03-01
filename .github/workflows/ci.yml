@@ -134,7 +134,7 @@ jobs:
           EOF
           cat artifacts/deployment.json
       
-      - uses: actions/upload-artifact@v6
+      - uses: actions/upload-artifact@v7
         with:
           name: deployment-manifest
           path: artifacts/deployment.json
